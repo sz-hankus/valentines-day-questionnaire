@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { AppearingText } from './AppearingText'
+import PopUp from './PopUp';
 
 const rejectedGifs = ["https://media1.tenor.com/m/JgJ9BQVFT8MAAAAC/shocked-cat.gif", "https://media1.tenor.com/m/CNI1fSM1XSoAAAAd/shocked-surprised.gif", "https://media1.tenor.com/m/mG2C4qgNU3EAAAAC/happy-birthday.gif"]
 const acceptedGifs = ["https://media1.tenor.com/m/arqlNu8gyJYAAAAC/cat-cat-jumping.gif", "https://media1.tenor.com/m/06026DSpi60AAAAd/happy-cat.gif", "https://media1.tenor.com/m/aKFaZBrZFYcAAAAC/excited-spin.gif"]
@@ -8,7 +9,8 @@ function Questionnaire() {
   const [chosenGif, setChosenGif] = useState("");
   const [rejectBtnDisabled, setRejectBtnDisabled] = useState(false);
   const [accepted, setAccepted] = useState(false);
-  const [intervalId, setIntervalId] = useState<number>(0);  // used for the "slideshow"
+  const [intervalId, setIntervalId] = useState(0);  // used for the "slideshow"
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
 
   const nextGif = (current: string, gifArray: string[]) => {
     const next = gifArray[(gifArray.indexOf(current) + 1) % gifArray.length];
@@ -77,13 +79,44 @@ function Questionnaire() {
               "flex flex-row items-center space-x-2 focus:outline-none text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2"
               :
               "hidden"}
-            onClick={swapGifOnReject}
+            onClick={() => setPopUpOpen(true)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
               </svg>
               <span>Oblokuj niespodziankę</span>
             </button>
+            
+            <PopUp isOpen={isPopUpOpen}>
+              <div className="flex flex-col space-y-4 justify-center items-center rounded-xl xl:w-96 lg:w-96 md:w-2/5 w-4/5 min-h-64 bg-white p-6 border-4 border-gray-500">
+                <div className="flex flex-row items-center space-x-2">
+                  <p className="text-4xl text-center">Zaproszenie</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 9v.906a2.25 2.25 0 0 1-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 0 0 1.183 1.981l6.478 3.488m8.839 2.51-4.66-2.51m0 0-1.023-.55a2.25 2.25 0 0 0-2.134 0l-1.022.55m0 0-4.661 2.51m16.5 1.615a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V8.844a2.25 2.25 0 0 1 1.183-1.981l7.5-4.039a2.25 2.25 0 0 1 2.134 0l7.5 4.039a2.25 2.25 0 0 1 1.183 1.98V19.5Z" />
+                  </svg>
+                </div>
+                <div><div id="google-maps-display" ><iframe className="max-w-64" src="https://www.google.com/maps/embed/v1/place?q=Boska+Ramen,+Zwycięstwa,+Gliwice,+Poland&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe></div><a className="from-embedmap-code" rel="nofollow" href="https://www.bootstrapskins.com/themes" id="enable-map-data"></a></div>
+                  <table className="table-auto">
+                    <tbody>
+                      <tr>
+                        <td className="px-4 border-r-2 border-r-gray-500 bg-gray-100">Data</td>
+                        <td className="px-4">08.02.2024</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 border-r-2 border-r-gray-500 bg-gray-100">Czas</td>
+                        <td className="px-4 ">16:00</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 border-r-2 border-r-gray-500 bg-gray-100">Miejsce</td>
+                        <td className="px-4">Boska Ramen, Gliwice</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <button onClick={() => setPopUpOpen(false)} className="p-2 bg-gray-200 rounded-lg hover:bg-gray-300 selection:bg-gray-400">
+                    Zamknij
+                  </button>
+              </div>
+            </PopUp>
           </div>
         </div>
       </div>
