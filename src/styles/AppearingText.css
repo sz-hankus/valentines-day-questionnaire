@@ -1,0 +1,6 @@
+.word {
+    transition: opacity 1.5s ease-out;
+    -moz-transition: opacity 1.5s ease-out;
+    -webkit-transition: opacity 1.5s ease-out;
+    -o-transition: opacity 1.5s ease-out;
+}
